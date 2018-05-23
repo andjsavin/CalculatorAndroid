@@ -4,7 +4,7 @@ import java.math.BigDecimal
 import java.util.*
 
 object ExpressionUtils {
-    val MAIN_MATH_OPERATIONS: MutableMap<String, Int>
+    private val MAIN_MATH_OPERATIONS: MutableMap<String, Int>
 
     init {
         MAIN_MATH_OPERATIONS = HashMap()
@@ -14,11 +14,10 @@ object ExpressionUtils {
         MAIN_MATH_OPERATIONS["-"] = 2
     }
 
-    @JvmOverloads
-    fun sortingStation(expression: String?, operations: Map<String, Int>?, leftBracket: String = "(",
-                       rightBracket: String = ")"): String {
+    private fun sortingStation(expression: String?, operations: Map<String, Int>?, leftBracket: String = "(",
+                               rightBracket: String = ")"): String {
         var expression = expression
-        if (expression == null || expression.length == 0)
+        if (expression == null || expression.isEmpty())
             throw IllegalStateException("Expression isn't specified.")
         if (operations == null || operations.isEmpty())
             throw IllegalStateException("Operations aren't specified.")
@@ -38,7 +37,7 @@ object ExpressionUtils {
             var nextOperation = ""
             for (operation in operationSymbols) {
                 val i = expression.indexOf(operation, index)
-                if (i >= 0 && i < nextOperationIndex) {
+                if (i in 0..(nextOperationIndex - 1)) {
                     nextOperation = operation
                     nextOperationIndex = i
                 }
@@ -98,14 +97,11 @@ object ExpressionUtils {
             } else {
                 val operand2 = stack.pop()
                 val operand1 = if (stack.empty()) BigDecimal.ZERO else stack.pop()
-                if (token == "*") {
-                    stack.push(operand1.multiply(operand2))
-                } else if (token == "/") {
-                    stack.push(operand1.divide(operand2))
-                } else if (token == "+") {
-                    stack.push(operand1.add(operand2))
-                } else if (token == "-") {
-                    stack.push(operand1.subtract(operand2))
+                when (token) {
+                    "*" -> stack.push(operand1.multiply(operand2))
+                    "/" -> stack.push(operand1.divide(operand2))
+                    "+" -> stack.push(operand1.add(operand2))
+                    "-" -> stack.push(operand1.subtract(operand2))
                 }
             }
         }
