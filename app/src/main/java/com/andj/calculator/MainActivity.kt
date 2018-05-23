@@ -144,15 +144,40 @@ class MainActivity : AppCompatActivity() {
             while (i < expression.length) {
                 if (i == 0) {
                     if (expression[i] == '-') {
-                        answer = answer + "(0-" + expression[i + 1] + ")"
-                        i += 2
+                        answer += "(0-"
+                        i += 1
+                        while (expression[i] !in listOf('+', '-', '*', '/')) {
+                            answer += expression[i]
+                            if (i == expression.length - 1) break
+                            i += 1
+                        }
+                        if (i == expression.length - 1) {
+                            answer += ")"
+                            i += 1
+                        } else {
+                            answer = answer + ")" + expression[i]
+                            i += 1
+                        }
                         continue
                     }
                 }
                 if (expression[i] == '-') {
                     if (expression[i-1] in listOf('-', '+', '/', '*', '(')) {
-                        answer = answer + "(0-" + expression[i + 1] + ")"
-                        i += 2
+                        answer += "(0-"
+                        i += 1
+                        while (expression[i] !in listOf('+', '-', '*', '/')) {
+                            answer += expression[i]
+                            if (i == expression.length - 1) break
+                            i += 1
+                        }
+                        if (i == expression.length - 1) {
+                            answer += ")"
+                            i += 1
+                        } else {
+                            answer = answer + ")" + expression[i]
+                            i += 1
+                        }
+                        continue
                     } else {
                         answer += expression[i]
                         i += 1
