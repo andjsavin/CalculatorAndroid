@@ -18,7 +18,7 @@
     <string name="plus">+</string>
     <string name="mul">*</string>
     <string name="div">/</string>
-    <string name="r">R</string>
+    <string name="r">R/ANS</string>
     <string name="calc">calc</string>
     <string name="hint">input</string>
 </resources>
