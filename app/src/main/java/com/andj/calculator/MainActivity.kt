@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
             if (expression[expression.length - 1] in listOf(')')) return true
         }
         if (button == "(") {
-            if (expression[expression.length - 1] in listOf('1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.')) return true
+            if (expression[expression.length - 1] in listOf('1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', ')')) return true
         }
         if (button == ")") {
             if (counter == 0) return true
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             if (!isBlocked("0", binding.editText.text.toString())) {
                 binding.editText.text = binding.editText.text.append("0")
                 if (binding.infoTextView.text != "") {
-                    binding.editText.setText("")
+                    binding.editText.setText("0")
                     binding.infoTextView.text = ""
                 }
             }
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 binding.editText.text = binding.editText.text.append("(")
                 counter += 1
                 if (binding.infoTextView.text != "") {
-                    binding.editText.setText("")
+                    binding.editText.setText("(")
                     binding.infoTextView.text = ""
                 }
             }
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 binding.editText.text = binding.editText.text.append(")")
                 counter -= 1
                 if (binding.infoTextView.text != "") {
-                    binding.editText.setText("")
+                    binding.editText.setText(")")
                     binding.infoTextView.text = ""
                 }
             }
@@ -206,6 +206,11 @@ class MainActivity : AppCompatActivity() {
         }
         binding.buttonR.setOnClickListener {
             if (binding.editText.text.toString() != "") {
+                if (binding.editText.text[binding.editText.text.length -1] == '(') {
+                    counter -= 1
+                } else if (binding.editText.text[binding.editText.text.length -1] == ')') {
+                    counter += 1
+                }
                 binding.editText.setText(binding.editText.text.removeSuffix(binding.editText.text[binding.editText.text.length - 1].toString()))
             } else {
                 binding.editText.setText(prev)
@@ -283,6 +288,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 binding.infoTextView.text = answer
                 prev = answer
+                counter = 0
             }
         }
     }
